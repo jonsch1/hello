@@ -85,6 +85,14 @@ defmodule HelloWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import HelloWeb.CoreComponents
+      import SaladUI.Button
+      import SaladUI.Input
+      import SaladUI.Label
+      import SaladUI.DropdownMenu
+      import SaladUI.Menu
+      import SaladUI.Icon
+      import SaladUI.Dialog
+
       import HelloWeb.Gettext
 
       # Shortcut for generating JS commands

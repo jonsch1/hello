@@ -10,5 +10,13 @@ defmodule HelloWeb.Layouts do
   """
   use HelloWeb, :html
 
+  import SaladUI.DropdownMenu
+  import SaladUI.Menu
+  alias SaladUI.Icon, as: SaladIcon
+  alias SaladUI.Button, as: SaladButton
+  import SaladUI.Dialog
+  import SaladUI.Input
+  import SaladUI.Label
+
   embed_templates "layouts/*"
 end

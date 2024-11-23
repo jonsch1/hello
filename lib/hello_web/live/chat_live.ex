@@ -3,6 +3,8 @@ defmodule HelloWeb.ChatLive do
 
   @topic "chat"
 
+
+
   def mount(_params, _session, socket) do
     if connected?(socket) do
       Phoenix.PubSub.subscribe(Hello.PubSub, @topic)
@@ -17,7 +19,7 @@ defmodule HelloWeb.ChatLive do
     {:ok, message} = %Hello.Chat.Message{}
     |> Hello.Chat.Message.changeset(%{content: content})
     |> Hello.Repo.insert()
-    
+
     Phoenix.PubSub.broadcast_from(
       Hello.PubSub,
       self(),
@@ -33,7 +35,7 @@ defmodule HelloWeb.ChatLive do
     # Find and delete the message
     message = Hello.Repo.get!(Hello.Chat.Message, id)
     {:ok, _} = Hello.Repo.delete(message)
-    
+
     # Broadcast deletion to other clients
     Phoenix.PubSub.broadcast_from(
       Hello.PubSub,
@@ -62,25 +64,37 @@ defmodule HelloWeb.ChatLive do
       <div class="messages" id="messages">
         <%= for message <- @messages do %>
           <div class="message" id={"message-#{message.id}"}>
-            <p>
-              <%= message.content %>
-              <button phx-click="delete_message" phx-value-id={message.id}>Delete</button>
+            <p class="flex items-center justify-between gap-2">
+              <span><%= message.content %></span>
+              <.button
+                phx-click="delete_message"
+                phx-value-id={message.id}
+                variant="destructive"
+              >
+                Delete
+              </.button>
             </p>
           </div>
         <% end %>
       </div>
 
-      <form phx-submit="send_message">
-        <input
-          type="text"
-          name="message"
-          value={@current_message}
-          placeholder="Type a message..."
-        />
-        <button type="submit">Send</button>
+      <form phx-submit="send_message" class="mt-4 flex gap-2">
+        <div class="flex-1">
+          <.input
+            type="text"
+            name="message"
+            value={@current_message}
+            placeholder="Type a message..."
+          />
+        </div>
+        <.button
+          type="submit"
+        >
+          Send
+        </.button>
       </form>
     </div>
     """
   end
 
-end 
+end

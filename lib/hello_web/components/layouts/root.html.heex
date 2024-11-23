@@ -12,47 +12,56 @@
     </script>
   </head>
   <body class="bg-white">
-    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
+    <nav class="relative z-10 flex items-center justify-end px-4 sm:px-6 lg:px-8 py-4 border-b border-zinc-100">
       <%= if @current_user do %>
-        <li class="text-[0.8125rem] leading-6 text-zinc-900">
-          <%= @current_user.email %>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Settings
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_out"}
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log out
-          </.link>
-        </li>
+        <.dropdown_menu>
+          <.dropdown_menu_trigger>
+            <.button class="">
+              <span><%= @current_user.email %></span>
+              <.icon name="hero-chevron-down-solid" class="h-4 w-4" />
+            </.button>
+          </.dropdown_menu_trigger>
+
+          <.dropdown_menu_content>
+            <.menu>
+              <.menu_group>
+                <.menu_item>
+                  <.link href={~p"/users/settings"} class="w-full">
+                    Settings
+                    <.menu_shortcut>⌘S</.menu_shortcut>
+                  </.link>
+                </.menu_item>
+                
+                <.menu_separator />
+                
+                <.menu_item>
+                  <.link 
+                    href={~p"/users/log_out"} 
+                    method="delete"
+                    class="w-full text-destructive hover:text-destructive"
+                  >
+                    Log out
+                    <.menu_shortcut>⌘Q</.menu_shortcut>
+                  </.link>
+                </.menu_item>
+              </.menu_group>
+            </.menu>
+          </.dropdown_menu_content>
+        </.dropdown_menu>
       <% else %>
-        <li>
+        <div class="flex items-center gap-4">
           <.link
             href={~p"/users/register"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-sm font-semibold text-zinc-900 hover:text-zinc-700"
           >
             Register
           </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
+          <.link href={~p"/users/log_in"}>
             Log in
           </.link>
-        </li>
+        </div>
       <% end %>
-    </ul>
+    </nav>
     <%= @inner_content %>
   </body>
 </html>
